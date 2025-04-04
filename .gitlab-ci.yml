@@ -1,0 +1,22 @@
+stages:
+  - test
+  - deploy
+
+default:
+  image: gradle:jdk17-corretto
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle_home
+  cache:
+    - key: dep-cache
+      paths:
+        - .gradle_home
+
+test:
+  stage: test
+  script:
+    - ./gradlew clean test --build-cache
+
+deploy:
+  stage: deploy
+  script:
+    - ./gradlew -PbhmNexusUsername=${NEXUS_SERVICE_USERNAME} -PbhmNexusPassword=${NEXUS_SERVICE_PASSWORD} publish
