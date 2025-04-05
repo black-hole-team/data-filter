@@ -9,12 +9,7 @@ default:
     - echo bhmNexusUsername=$NEXUS_SERVICE_USERNAME >> $GRADLE_USER_HOME/gradle.properties
     - echo bhmNexusPassword=$NEXUS_SERVICE_PASSWORD >> $GRADLE_USER_HOME/gradle.properties
   cache:
-    - key:
-        files:
-          - build.gradle.kts
-          - settings.gradle.kts
-          - spring/build.gradle.kts
-          - backend/build.gradle.kts
+    - key: dep-cache
       paths:
         - .gradle_home
 
