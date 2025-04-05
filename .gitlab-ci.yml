@@ -19,4 +19,4 @@ test:
 deploy:
   stage: deploy
   script:
-    - ./gradlew -PbhmNexusUsername=${NEXUS_SERVICE_USERNAME} -PbhmNexusPassword=${NEXUS_SERVICE_PASSWORD} publish
+    - ./gradlew -PbhmNexusUsername=$NEXUS_SERVICE_USERNAME -PbhmNexusPassword=$NEXUS_SERVICE_PASSWORD publish
