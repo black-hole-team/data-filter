@@ -16,6 +16,16 @@ dependencyResolutionManagement {
 
     // Список репозиториев
     repositories {
+        // Наша репа
+        maven {
+            url = uri("https://nexus.black-hole.team/repository/maven-releases/")
+
+            credentials {
+                username = extra["bhmNexusUsername"].toString()
+                password = extra["bhmNexusPassword"].toString()
+            }
+        }
+        // Центральная репа
         mavenCentral()
     }
 }
