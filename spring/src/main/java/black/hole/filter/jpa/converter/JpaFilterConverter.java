@@ -40,7 +40,7 @@ public class JpaFilterConverter<T> implements FilterConverter<CriteriaQuery<T>> 
         cr.where(Stream.concat(filter.getCriteria().stream(), handlers.stream().map(CustomCriteriaHandler::base).filter(Objects::nonNull))
                     .map(criteria -> convertCriteria(criteria, cb, root)).toArray(Predicate[]::new));
         cr.orderBy(convertSort(filter.getSorts(), cb, root));
-        return cr;
+        return cr.select(root);
     }
 
     /**

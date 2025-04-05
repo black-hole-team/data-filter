@@ -26,9 +26,6 @@ public class ExtendedJpaRepositoryImpl<T, I extends Serializable> extends Simple
     /** Контракт для вызова jpa */
     private final EntityManager entityManager;
 
-    /** Информация о сущности */
-    private final JpaEntityInformation<T, I> entityInformation;
-
     /**
      * Конструктор репозитория
      * @param converter         конвертер фильтра
@@ -39,7 +36,6 @@ public class ExtendedJpaRepositoryImpl<T, I extends Serializable> extends Simple
                                      final JpaEntityInformation<T, I> entityInformation, final EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.converter = converter;
-        this.entityInformation = entityInformation;
         this.entityManager = entityManager;
     }
 
@@ -50,6 +46,6 @@ public class ExtendedJpaRepositoryImpl<T, I extends Serializable> extends Simple
         if (count == 0) {
             return new PageImpl<>(Collections.emptyList(), filter.getPage(), 0, filter);
         }
-        return new PageImpl<>(entityManager.createQuery(query.select(query.from(entityInformation.getJavaType()))).getResultList(), filter.getPage(), count, filter);
+        return new PageImpl<>(entityManager.createQuery(query).getResultList(), filter.getPage(), count, filter);
     }
 }
