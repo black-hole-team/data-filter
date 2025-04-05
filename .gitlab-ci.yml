@@ -6,10 +6,15 @@ default:
   image: gradle:jdk17-corretto
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle_home
-    - echo "bhmNexusUsername=$NEXUS_SERVICE_USERNAME\n" >> gradle.properties
-    - echo "bhmNexusPassword=$NEXUS_SERVICE_PASSWORD\n" >> gradle.properties
+    - echo bhmNexusUsername=$NEXUS_SERVICE_USERNAME >> $GRADLE_USER_HOME/gradle.properties
+    - echo bhmNexusPassword=$NEXUS_SERVICE_PASSWORD >> $GRADLE_USER_HOME/gradle.properties
   cache:
-    - key: dep-cache
+    - key:
+        files:
+          - build.gradle.kts
+          - settings.gradle.kts
+          - spring/build.gradle.kts
+          - backend/build.gradle.kts
       paths:
         - .gradle_home
 
