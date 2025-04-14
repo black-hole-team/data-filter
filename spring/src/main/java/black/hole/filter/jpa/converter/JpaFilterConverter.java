@@ -86,8 +86,8 @@ public class JpaFilterConverter<T> implements FilterConverter<CriteriaQuery<T>> 
                 case "<" -> cb.lt(path(root, ffc.getField()), (Number) ffc.getValue());
                 case ">=" -> cb.ge(path(root, ffc.getField()), (Number) ffc.getValue());
                 case "<=" -> cb.le(path(root, ffc.getField()), (Number) ffc.getValue());
-                case "in" -> path(root, ffc.getField()).in(ffc.getValue());
-                case "not in" -> cb.not(path(root, ffc.getField()).in(ffc.getValue()));
+                case "in" -> path(root, ffc.getField()).in((Collection<?>) ffc.getValue());
+                case "not in" -> cb.not(path(root, ffc.getField()).in((Collection<?>) ffc.getValue()));
                 case "like" -> cb.like(path(root, ffc.getField()), (String) ffc.getValue());
                 case "not like" -> cb.notLike(path(root, ffc.getField()), (String) ffc.getValue());
                 default -> throw new FilterConverterException(String.format("Неизвестный оператор '%s'", ffc.getOperator()));

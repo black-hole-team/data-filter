@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "black.hole.filter"
-version = "0.0.2"
+version = "0.0.3"
 
 ext {
     set("junitVersion", "5.10.0")
