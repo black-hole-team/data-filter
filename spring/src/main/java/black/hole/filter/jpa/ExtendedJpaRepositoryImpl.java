@@ -46,6 +46,9 @@ public class ExtendedJpaRepositoryImpl<T, I extends Serializable> extends Simple
         if (count == 0) {
             return new PageImpl<>(Collections.emptyList(), filter.getPage(), 0, filter);
         }
-        return new PageImpl<>(entityManager.createQuery(query).getResultList(), filter.getPage(), count, filter);
+        return new PageImpl<>(entityManager.createQuery(query)
+                .setMaxResults(filter.getPageSize())
+                .setFirstResult(filter.getPage() * filter.getPageSize())
+                .getResultList(), filter.getPage(), count, filter);
     }
 }
