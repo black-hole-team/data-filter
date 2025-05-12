@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -64,6 +65,7 @@ public class JpaFilterConverter<T> implements FilterConverter<CriteriaQuery<T>> 
      * @param criteria критерий
      * @return критерий jpa
      */
+    @SuppressWarnings({"unchecked"})
     private Predicate convertCriteria(FilterCriteria criteria, CriteriaBuilder cb, Root<T> root) {
         if (criteria instanceof FilterFieldCriteria ffc && ffc.isCanBeConverted()) {
             criteria = convertFilterCriteria(ffc);
@@ -80,12 +82,24 @@ public class JpaFilterConverter<T> implements FilterConverter<CriteriaQuery<T>> 
             }
         } else if (criteria instanceof FilterFieldCriteria ffc) {
             return switch (ffc.getOperator()) {
-                case "=" -> cb.equal(path(root, ffc.getField()), ffc.getValue());
-                case "!=" -> cb.notEqual(path(root, ffc.getField()), ffc.getValue());
-                case ">" -> cb.gt(path(root, ffc.getField()), (Number) ffc.getValue());
-                case "<" -> cb.lt(path(root, ffc.getField()), (Number) ffc.getValue());
-                case ">=" -> cb.ge(path(root, ffc.getField()), (Number) ffc.getValue());
-                case "<=" -> cb.le(path(root, ffc.getField()), (Number) ffc.getValue());
+                case "=" -> {
+                    if (ffc.getValue() == null) {
+                        yield cb.isNull(path(root, ffc.getField()));
+                    } else {
+                        yield cb.equal(path(root, ffc.getField()), ffc.getValue());
+                    }
+                }
+                case "!=" -> {
+                    if (ffc.getValue() == null) {
+                        yield cb.isNotNull(path(root, ffc.getField()));
+                    } else {
+                        yield cb.notEqual(path(root, ffc.getField()), ffc.getValue());
+                    }
+                }
+                case ">" -> cb.greaterThan(path(root, ffc.getField()), cb.literal((Comparable<Object>) ffc.getValue()));
+                case "<" -> cb.lessThan(path(root, ffc.getField()), cb.literal((Comparable<Object>) ffc.getValue()));
+                case ">=" -> cb.greaterThanOrEqualTo(path(root, ffc.getField()), cb.literal((Comparable<Object>) ffc.getValue()));
+                case "<=" -> cb.lessThanOrEqualTo(path(root, ffc.getField()), cb.literal((Comparable<Object>) ffc.getValue()));
                 case "in" -> path(root, ffc.getField()).in((Collection<?>) ffc.getValue());
                 case "not in" -> cb.not(path(root, ffc.getField()).in((Collection<?>) ffc.getValue()));
                 case "like" -> cb.like(path(root, ffc.getField()), (String) ffc.getValue());
