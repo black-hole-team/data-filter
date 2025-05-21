@@ -1,11 +1,11 @@
-rootProject.name = "black-hole-filter"
+rootProject.name = "data-filter"
 
 pluginManagement {
     plugins {
         id("io.spring.dependency-management") version "1.1.5"
         id("org.springframework.boot") version "3.3.1"
         id("io.freefair.lombok") version "8.6"
-        id("io.codearte.nexus-staging") version "0.30.0"
+        id("org.jreleaser") version "1.14.0"
     }
 }
 
@@ -16,19 +16,12 @@ dependencyResolutionManagement {
 
     // Список репозиториев
     repositories {
-        // Наша репа
-        maven {
-            url = uri("https://nexus.black-hole.team/repository/maven-releases/")
-
-            credentials {
-                username = extra["bhmNexusUsername"].toString()
-                password = extra["bhmNexusPassword"].toString()
-            }
-        }
         // Центральная репа
         mavenCentral()
+        // Локальная репа
+        mavenLocal()
     }
 }
 
 // Проекты и подпроекты
-include(":backend", ":spring")
+include(":filter-backend", ":filter-spring-integration")

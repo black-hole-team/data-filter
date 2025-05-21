@@ -1,11 +1,15 @@
+import org.jreleaser.model.Active
+
 plugins {
     id("java")
     id("maven-publish")
     id("io.freefair.lombok")
+    id("org.jreleaser")
 }
 
-group = "black.hole.filter"
-version = "0.0.7"
+group = "team.black-hole.data"
+description = "Библиотека позволяет создавать сложные критерии фильтрации, сортировки и пагинации данных через единый интерфейс. Включает лексический анализатор и парсер для обработки строковых выражений фильтрации"
+version = "0.0.1"
 
 ext {
     set("junitVersion", "5.10.0")
@@ -20,6 +24,7 @@ subprojects {
     afterEvaluate {
         if (project.ext.has("publish_name") || project.ext.has("publish_description")) {
             pluginManager.apply("maven-publish")
+            pluginManager.apply("org.jreleaser")
 
             java {
                 withJavadocJar()
@@ -33,17 +38,6 @@ subprojects {
             }
 
             publishing {
-                repositories {
-                    maven {
-                        url = uri("https://nexus.black-hole.team/repository/maven-releases/")
-
-                        credentials {
-                            username = project.properties["bhmNexusUsername"].toString()
-                            password = project.properties["bhmNexusPassword"].toString()
-                        }
-                    }
-                }
-
                 publications {
                     create<MavenPublication>("mavenJava") {
                         artifactId = project.name
@@ -56,7 +50,7 @@ subprojects {
                         pom {
                             packaging = "jar"
 
-                            url.set("https://gitlab.com/black-hole-team/black-hole-market/black-hole-filter")
+                            url.set("https://github.com/black-hole-team/data-filter")
 
                             name.set(project.ext.get("publish_name").toString())
                             description.set(project.ext.get("publish_description").toString())
@@ -69,17 +63,60 @@ subprojects {
                             }
 
                             scm {
-                                connection.set("scm:https://gitlab.com/black-hole-team/black-hole-market/black-hole-filter.git")
-                                developerConnection.set("scm:git@gitlab.com:black-hole-team/black-hole-market/black-hole-filter.git")
-                                url.set("https://gitlab.com/black-hole-team/black-hole-market/black-hole-filter")
+                                connection.set("scm:https://github.com/black-hole-team/data-filter.git")
+                                developerConnection.set("scm:git@github.com:black-hole-team/data-filter.git")
+                                url.set("https://github.com/black-hole-team/data-filter")
                             }
 
                             developers {
                                 developer {
-                                    id.set("astecom")
+                                    id.set("AseWhy")
                                     name.set("Aleksey Plekhanov")
                                     email.set("astecoms@gmail.com")
                                 }
+                            }
+                        }
+                    }
+                }
+                repositories {
+                    maven {
+                        setUrl(layout.buildDirectory.dir("staging-deploy"))
+                    }
+                }
+            }
+
+            jreleaser {
+                project {
+                    inceptionYear = "2025"
+                    author("@AseWhy")
+                }
+
+                release {
+                    github {
+                        skipRelease = true
+                        skipTag = true
+                        sign = true
+                        branch = "main"
+                        branchPush = "main"
+                        overwrite = true
+                    }
+                }
+
+                signing {
+                    active = Active.ALWAYS
+                    armored = true
+                    verify = true
+                }
+
+                deploy {
+                    maven {
+                        mavenCentral {
+                            create("sonatype") {
+                                active = Active.ALWAYS
+                                url = "https://central.sonatype.com/api/v1/publisher"
+                                stagingRepository(layout.buildDirectory.dir("staging-deploy").get().toString())
+                                setAuthorization("Basic")
+                                retryDelay = 60
                             }
                         }
                     }

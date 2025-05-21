@@ -8,8 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/backend" />
-            <option value="$PROJECT_DIR$/spring" />
+            <option value="$PROJECT_DIR$/filter-backend" />
+            <option value="$PROJECT_DIR$/filter-spring-integration" />
           </set>
         </option>
       </GradleProjectSettings>
