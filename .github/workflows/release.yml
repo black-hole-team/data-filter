@@ -2,8 +2,8 @@ name: Публикует пакет в Maven Central
 
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - main
 
 jobs:
   build:
