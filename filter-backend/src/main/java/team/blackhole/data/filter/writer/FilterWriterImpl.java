@@ -2,7 +2,6 @@ package team.blackhole.data.filter.writer;
 
 import org.apache.commons.text.StringEscapeUtils;
 import team.blackhole.data.filter.*;
-import team.blackhole.filter.*;
 
 import java.util.List;
 

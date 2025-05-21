@@ -2,7 +2,7 @@ group = parent?.group!!
 version = parent?.version!!
 
 ext {
-    set("publish_name", "Black Hole Filter Backend")
+    set("publish_name", "black-hole-data-filter-backend")
     set("publish_description", "Бэкенд фильтрации для Black Hole Filter")
 }
 

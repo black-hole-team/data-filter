@@ -37,6 +37,9 @@ subprojects {
                 }
             }
 
+            /** Директория хранения актифактов для публикации */
+            val stagingDirectory = layout.buildDirectory.dir("staging-deploy");
+
             publishing {
                 publications {
                     create<MavenPublication>("mavenJava") {
@@ -80,12 +83,14 @@ subprojects {
                 }
                 repositories {
                     maven {
-                        setUrl(layout.buildDirectory.dir("staging-deploy"))
+                        setUrl(stagingDirectory)
                     }
                 }
             }
 
             jreleaser {
+                gitRootSearch = true
+
                 project {
                     inceptionYear = "2025"
                     author("@AseWhy")
@@ -114,7 +119,7 @@ subprojects {
                             create("sonatype") {
                                 active = Active.ALWAYS
                                 url = "https://central.sonatype.com/api/v1/publisher"
-                                stagingRepository(layout.buildDirectory.dir("staging-deploy").get().toString())
+                                stagingRepository(stagingDirectory.get().toString())
                                 setAuthorization("Basic")
                                 retryDelay = 60
                             }

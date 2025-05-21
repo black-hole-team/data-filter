@@ -4,7 +4,7 @@ plugins {
 }
 
 ext {
-    set("publish_name", "Black Hole Filter Spring Integration")
+    set("publish_name", "black-hole-data-filter-spring-integration")
     set("publish_description", "Интеграция фильтра для spring boot включающая реализации для mongodb, jpa и включение автоматического парсинга фильтра в запросах")
 }
 
@@ -29,11 +29,12 @@ tasks {
         useJUnitPlatform()
     }
 
-    getByName("bootJar") {
+    bootJar {
         enabled = false
     }
 
-    getByName("jar") {
+    jar {
         enabled = true
+        archiveClassifier = ""
     }
 }

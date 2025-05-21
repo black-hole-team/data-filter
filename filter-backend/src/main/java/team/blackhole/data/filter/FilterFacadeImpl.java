@@ -2,7 +2,6 @@ package team.blackhole.data.filter;
 
 import team.blackhole.data.filter.builder.FilterBuilderFactory;
 import team.blackhole.data.filter.lexer.*;
-import team.blackhole.filter.lexer.*;
 import team.blackhole.data.filter.writer.FilterWriter;
 import lombok.RequiredArgsConstructor;
 
