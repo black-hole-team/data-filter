@@ -9,7 +9,7 @@ plugins {
 
 group = "team.black-hole.data"
 description = "Библиотека позволяет создавать сложные критерии фильтрации, сортировки и пагинации данных через единый интерфейс. Включает лексический анализатор и парсер для обработки строковых выражений фильтрации"
-version = "0.0.2"
+version = "0.0.4"
 
 ext {
     set("junitVersion", "5.10.0")
@@ -98,6 +98,7 @@ subprojects {
 
                 release {
                     github {
+                        draft = true
                         skipRelease = true
                         skipTag = true
                         sign = true

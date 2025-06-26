@@ -19,10 +19,10 @@
 
 ```kotlin
 // Основной модуль фильтрации
-implementation("team.black-hole.data:filter-backend:0.0.1")
+implementation("team.black-hole.data:filter-backend:0.0.4")
 
 // Интеграция со Spring Boot
-implementation("team.black-hole.data:filter-spring-integration:0.0.1")
+implementation("team.black-hole.data:filter-spring-integration:0.0.4")
 ```
 
 ### Maven
