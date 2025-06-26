@@ -196,6 +196,11 @@ public class UserController {
 
 Проект распространяется под лицензией Apache License 2.0. Подробности в файле LICENSE.
 
+# Публикация
+
+    ./gradlew clean jreleaserConfig build publish
+    ./gradlew jreleaserFullRelease
+
 ## Разработчики
 
 - Aleksey Plekhanov (@AseWhy) - astecoms@gmail.com
