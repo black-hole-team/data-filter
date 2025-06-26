@@ -35,6 +35,12 @@ public class FilterBuilderImpl implements FilterBuilder {
     }
 
     @Override
+    public FilterBuilder incrementPage(int delta) {
+        this.page = Math.max(page + delta, 0);
+        return this;
+    }
+
+    @Override
     public FilterBuilder pageSize(int pageSize) {
         this.pageSize = pageSize;
         return this;

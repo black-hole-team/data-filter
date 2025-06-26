@@ -20,6 +20,13 @@ public interface FilterBuilder extends FilterCriteriaOwner {
     FilterBuilder page(int page);
 
     /**
+     * Увеличивает страницу фильтра на значение {@code delta}
+     * @param delta разница между текущей и новой страницей фильтра
+     * @return построитель фильтра
+     */
+    FilterBuilder incrementPage(int delta);
+
+    /**
      * Устанавливает количество элементов на 1 странице
      * @param pageSize количество элементов на 1 странице
      * @return построитель фильтра
